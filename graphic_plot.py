@@ -65,7 +65,7 @@ class PlotAcc:
 
             while True:
                 if e > u-(self.t+1):
-                    print('\n Error: no vibration! \n')
+                    print('\n Error: no transient was found! \n')
                     return False
                 elif deriv_acc[e] >= jerk_cr:
                     trigger = e
@@ -79,7 +79,7 @@ class PlotAcc:
             jerk_cr = deriv_acc[trigger]
             return {'trigger': trigger, 'deriv_acc': deriv_acc, 'jerk_cr': jerk_cr}
 
-    # Jerk plot as funcion of time
+    # Jerk plot as funcion of time:
 
     def plot_jerk(self, asse):
 
@@ -319,7 +319,7 @@ class PlotAcc:
         fig.update_xaxes(showgrid=False, gridwidth=1, gridcolor='black', zerolinecolor='black', zeroline=False, row=2, col=1,
                          mirror=True, ticks='outside', showline=True, zerolinewidth=0.1,
                          title_text="Frequency [Hz]", tickwidth=1, tickcolor='black', ticklen=5,
-                         range=[-1, f_max]  # tickangle=45
+                         range=[-1, f_max]
                          )
 
         fig.update_yaxes(showgrid=False, gridwidth=1, gridcolor='black', zerolinecolor='black', zeroline=True, row=2, col=1,
@@ -347,8 +347,7 @@ class PlotAcc:
                           legend_orientation="h",
                           )
 
-        # Show and save plots:
+        # Save plots:
 
-        #fig.show()
         pio.write_html(fig, file=self.path + 'acceleration plot ' + asse + '.html', auto_open=False)
         

@@ -168,7 +168,7 @@ def yes_or_no(domanda):
         elif check[:1] == 'n':
             return False
         else:
-            print('\n Input non valido \n')
+            print('\n Invalid input \n')
             return yes_or_no(domanda)
     except Exception as error:
         print("\n Error! Invalid input, please insert a valid value. (Y/n): \n")
@@ -187,7 +187,7 @@ print(" Register 0x1C bus.1 add.69: ", mpu2.read_accel_range(raw = False), "g")
 print(" Register 0x1C bus.4 add.68: ", mpu3.read_accel_range(raw = False), "g")
 print(" Register 0x1C bus.4 add.69: ", mpu4.read_accel_range(raw = False), "g")
 
-print("\n Impostazione dei filtri passa basso digitali (please, refer tab DLPF_CFG pag.13 of the file MPU-6000-Register-map1.pdf) \n")
+print("\n Digital Low Pass Filter setup (please, refer tab DLPF_CFG pag.13 of the file MPU-6000-Register-map1.pdf). \n")
 
 mpu1.set_dlpf(dlpf)
 mpu2.set_dlpf(dlpf)
@@ -244,7 +244,7 @@ avg_3_z = 0
 avg_4_x = 0
 avg_4_z = 0
 
-domanda1 = str("\n Do you wish to start the calibration? (Y,n): ")
+domanda1 = str("\n Do you want to start the calibration? (Y,n): ")
 
 if yes_or_no(domanda1):
     print("\n Calibration started: ", dt.now().strftime('%H-%M-%S'))
@@ -287,7 +287,7 @@ if yes_or_no(domanda1):
         
 
     # Time elapsed during the calibration cycle:
-    print("\n Calibration stop: ", time.time() - start1, " s")
+    print("\n Calibration completed: ", time.time() - start1, " s")
 
     ### acc_1
 
@@ -295,7 +295,7 @@ if yes_or_no(domanda1):
     avg_1_x = round(mean(x_1), c)
     avg_1_z = round(mean(z_1), c)
 
-    print("\n\n Accelerometer 1:\n\n Valor medio X_1: ", avg_1_x)
+    print("\n\n Accelerometer 1:\n\n Mean value X_1: ", avg_1_x)
     print(" Mean value Z_1: ", avg_1_z)
 
     print("\n Offsets, X_1: ", avg_1_x, "\tZ_1: ", round(avg_1_z-g, c))
@@ -312,7 +312,7 @@ if yes_or_no(domanda1):
     avg_2_x = round(mean(x_2), c)
     avg_2_z = round(mean(z_2), c)
 
-    print("\n\n Accelerometro 2:\n\n Valor medio X_2: ", avg_2_x)
+    print("\n\n Accelerometer 2:\n\n Mean value X_2: ", avg_2_x)
     print(" Mean value Z_2: ", avg_2_z)
 
     print("\n Offsets: X_2: ", avg_2_x, "\tZ_2: ", round(avg_2_z-g, c))
@@ -328,7 +328,7 @@ if yes_or_no(domanda1):
     avg_3_x = round(mean(x_3), c)
     avg_3_z = round(mean(z_3), c)
 
-    print("\n\n Accelerometro 3:\n\n Valor medio X_3: ", avg_3_x)
+    print("\n\n Accelerometer 3:\n\n Mean value X_3: ", avg_3_x)
     print(" Mean value Z_3: ", avg_3_z)
 
     print("\n Offsets, X_3: ", avg_3_x, "\tZ_3: ", round(avg_3_z-g, c))
@@ -344,7 +344,7 @@ if yes_or_no(domanda1):
     avg_4_x = round(mean(x_4), c)
     avg_4_z = round(mean(z_4), c)
 
-    print("\n\n Accelerometro 4:\n\n Valor medio X_4: ", avg_4_x)
+    print("\n\n Accelerometer 4:\n\n Mean value X_4: ", avg_4_x)
     print(" Mean value Z_4: ", avg_4_z)
 
 
@@ -356,7 +356,7 @@ if yes_or_no(domanda1):
 
     print( "\n Standard deviation, X_4: ", dev_x_4, "\tZ_4: ", dev_z_4)
 
-    print("\n Calibration ended at: ", dt.now().strftime('%H-%M-%S'),"\n\n")
+    print("\n Calibration completed: ", dt.now().strftime('%H-%M-%S'),"\n\n")
     
     # Definition of the .csv calibration file:
     with open('calibration4.csv', 'w',  newline='') as CalibFile:
@@ -378,7 +378,7 @@ else:
 
 ### Data acquisition
 
-domanda2 = str("Do you wish to start data acquisition? (Y/n): ")
+domanda2 = str("Do you want to start data acquisition? (Y/n): ")
 
 while yes_or_no(domanda2):
 
@@ -421,8 +421,8 @@ while yes_or_no(domanda2):
         time.sleep(samp - (time.time() % samp))
 
     # Data acquisition stop:
-    print("\n Data acquisition stopped: ", time.time() - start2, " s")
-    print("\n\n End of data acquisition, wait until the end of the post-processing: ", dt.now().strftime('%H-%M-%S'), "\n")
+    print("\n Data acquisition completed: ", time.time() - start2, " s")
+    print("\n\n Data acquisition completed, wait until the end of the post-processing operations: ", dt.now().strftime('%H-%M-%S'), "\n")
     
     ### Post-processing
     
@@ -587,7 +587,7 @@ while yes_or_no(domanda2):
         
         plotrigger = plot_acc.PlotAcc(df=acc, samp=samp, t=100, jerk_perc=350, pre_tr=20, ax_princ=ax_princ)
         
-        # Vibration checking:
+        # Transient check:
         
         if plotrigger.triggcalc():
         
@@ -626,6 +626,6 @@ while yes_or_no(domanda2):
             zipfold.close()
 
 
-    print("\n Ending of the post-processing operations", dt.now().strftime('%H-%M-%S'), "\n")
+    print("\n Post-processing operations completed", dt.now().strftime('%H-%M-%S'), "\n")
 
 print("\n Data acquisition completed with no errors. \n")
